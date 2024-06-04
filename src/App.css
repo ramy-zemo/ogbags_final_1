@@ -1,0 +1,212 @@
+@font-face {
+  font-family: 'Padaloma';
+  src: url('/public/Padaloma.ttf') format('truetype');
+}
+
+body {
+  font-family: 'Padaloma', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100vh;
+  background: url('/public/images/background.jfif') no-repeat center center fixed;
+  background-size: cover;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(0.95);
+  }
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.App-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 10; /* Ensure it stays on top */
+  padding: 10px 20px; /* Ensure enough space for the logo */
+  box-sizing: border-box;
+}
+
+.App-logo {
+  max-width: 200px; /* Adjust size as needed */
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-top: 150px; /* Ensure space between logo and content */
+  padding: 20px;
+}
+
+.upload-pfp {
+  background-color: black;
+  box-shadow: 0 0 15px 5px rgba(0, 255, 0, 0.5);
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300px; /* Fixed width for the upload section */
+  transition: padding 0.3s ease, height 0.3s ease;
+  margin-top: 20px; /* Adjust this value to ensure enough space between the logo and the section */
+}
+
+.upload-pfp.og-visible {
+  padding-bottom: 20px; /* Adjust padding to make space for the Get OG button */
+}
+
+.upload-pfp.sliders-visible {
+  padding-bottom: 70px; /* Adjust padding to make space for the sliders */
+}
+
+.image-container {
+  width: 100%;
+  height: 200px; /* Fixed height for the image container */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative; /* Needed for overlay positioning */
+}
+
+.uploaded-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; /* Ensure the image maintains aspect ratio */
+  z-index: 1; /* Ensure it is below the circle layer */
+}
+
+.circle-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Ensure the image maintains aspect ratio */
+  z-index: 2; /* Ensure it is above the uploaded image but below the OG overlay */
+}
+
+.og-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Ensure the image maintains aspect ratio */
+  z-index: 3; /* Ensure it is above the circle layer */
+  pointer-events: none; /* Ensure clicks pass through the overlay */
+}
+
+.button {
+  font-size: clamp(14px, 1vw, 16px); /* Adjusted size */
+  white-space: nowrap;
+  padding: 10px 20px; /* Reduced padding */
+  text-decoration: none;
+  background-color: rgb(2, 255, 64);
+  color: rgb(0, 0, 0);
+  border-radius: 40px;
+  font-family: 'Padaloma', sans-serif;
+  transform: scale(0.95);
+  animation: 0.7s ease 0s infinite normal none running pulse;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 200px; /* Reduced width */
+  width: 100%;
+  box-sizing: border-box;
+  margin: 10px 0;
+}
+
+.top-button {
+  max-width: none;
+  width: auto;
+  margin: 0;
+}
+
+.download-button {
+  max-width: 300px; /* Adjust size for the download button */
+  width: 100%;
+  padding: 15px 30px; /* Increased padding for a larger button */
+  margin-top: 20px; /* Add margin to separate it from the other content */
+}
+
+.slider-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.slider {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin: 10px 0;
+}
+
+.slider label {
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: white;
+}
+
+.slider input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 10px;
+  background: rgb(2, 255, 64);
+  outline: none;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  border-radius: 5px;
+}
+
+.slider input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  background: rgb(255, 255, 255); /* White background */
+  border: 2px solid rgb(0, 0, 0); /* Black border */
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.slider input[type="range"]::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  background: rgb(255, 255, 255); /* White background */
+  border: 2px solid rgb(0, 0, 0); /* Black border */
+  cursor: pointer;
+  border-radius: 50%;
+}
