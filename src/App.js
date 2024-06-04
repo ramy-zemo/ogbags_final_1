@@ -6,7 +6,7 @@ const App = () => {
     <div className="app-container">
       <header className="App-header">
         <button className="button top-button" onClick={() => window.location.href = 'https://bags.fm/0xdoncarlo'}>
-          Join Bags
+          JOIN BAGS
         </button>
         <img src="/images/BagsOG_Logo_Header.png" alt="BagsOG Logo" className="App-logo" />
         <ShareButton />
@@ -35,17 +35,15 @@ const UploadPFP = () => {
     if (file) {
       const img = new Image();
       img.onload = () => {
-        if (img.width !== 400 || img.height !== 400) {
-          alert('Please upload an image with 400x400 pixels.');
-          return;
-        }
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          setImage(e.target.result);
-          setShowOg(false); // Reset OG overlay when a new image is uploaded
-          setShowSliders(false); // Hide sliders if a new image is uploaded
-        };
-        reader.readAsDataURL(file);
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        canvas.width = 400;
+        canvas.height = 400;
+        context.drawImage(img, 0, 0, 400, 400);
+        const resizedImage = canvas.toDataURL('image/png');
+        setImage(resizedImage);
+        setShowOg(false); // Reset OG overlay when a new image is uploaded
+        setShowSliders(false); // Hide sliders if a new image is uploaded
       };
       img.src = URL.createObjectURL(file);
     }
@@ -82,22 +80,22 @@ const UploadPFP = () => {
         )}
       </div>
       <button className="button" onClick={handleButtonClick}>
-        Upload PFP
+        UPLOAD PFP
       </button>
       {image && (
         <>
           <button className="button" onClick={handleGetOgClick}>
-            Get OG
+            GET OG
           </button>
           {showOg && (
             <>
               <button className="button" onClick={toggleSliders}>
-                Scale
+                SCALE
               </button>
               {showSliders && (
                 <div className="slider-container">
                   <div className="slider">
-                    <label>Move X</label>
+                    <label>MOVE X</label>
                     <input
                       type="range"
                       min="-100"
@@ -107,7 +105,7 @@ const UploadPFP = () => {
                     />
                   </div>
                   <div className="slider">
-                    <label>Move Y</label>
+                    <label>MOVE Y</label>
                     <input
                       type="range"
                       min="-100"
@@ -117,7 +115,7 @@ const UploadPFP = () => {
                     />
                   </div>
                   <div className="slider">
-                    <label>Move Z</label>
+                    <label>MOVE Z</label>
                     <input
                       type="range"
                       min="0.5"
@@ -233,23 +231,30 @@ const ShareButton = () => {
 
         context.drawImage(ogImage, ogX, ogY, ogWidth, ogHeight);
 
-        const dataUrl = canvas.toDataURL('image/png');
+        canvas.toBlob((blob) => {
+          const formData = new FormData();
+          formData.append('file', blob, 'profile.png');
 
-        const tweetText = "Get your @bagsapp OG PFP\nogbags.xyz\n*paste your generated PFP*";
-        const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
-        window.open(tweetUrl, '_blank');
+          fetch('http://localhost:3000/upload', {
+            method: 'POST',
+            body: formData,
+          })
+            .then(response => response.json())
+            .then(data => {
+              window.open(data.tweetUrl, '_blank');
+            })
+            .catch(error => console.error('Error uploading image:', error));
+        });
       };
       ogImage.src = ogOverlay.src;
     } else {
-      const tweetText = "I am an OG";
-      const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
-      window.open(tweetUrl, '_blank');
+      alert('Please add the OG overlay before sharing.');
     }
   };
 
   return (
     <button className="button top-button" onClick={handleShareClick}>
-      Share
+      SHARE
     </button>
   );
 };
