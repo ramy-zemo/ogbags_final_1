@@ -5,7 +5,7 @@ const App = () => {
   return (
     <div className="app-container">
       <header className="App-header">
-        <button className="button top-button" onClick={() => window.location.href = 'https://bags.fm/0xdoncarlo'}>
+        <button className="button top-button" id="join-bags" onClick={() => window.location.href = 'https://bags.fm/0xdoncarlo'}>
           JOIN BAGS
         </button>
         <img src="/images/BagsOG_Logo_Header.png" alt="BagsOG Logo" className="App-logo" />
@@ -185,14 +185,14 @@ const DownloadButton = () => {
     } else {
       const link = document.createElement('a');
       link.href = canvas.toDataURL('image/png');
-      link.download = 'profile.png';
+      link.download = ('profile.png');
       link.click();
     }
   };
 
   return (
     <button className="button download-button" onClick={downloadImage}>
-      Download
+      DOWNLOAD
     </button>
   );
 };
@@ -231,24 +231,17 @@ const ShareButton = () => {
 
         context.drawImage(ogImage, ogX, ogY, ogWidth, ogHeight);
 
-        canvas.toBlob((blob) => {
-          const formData = new FormData();
-          formData.append('file', blob, 'profile.png');
+        const dataUrl = canvas.toDataURL('image/png');
 
-          fetch('http://localhost:3000/upload', {
-            method: 'POST',
-            body: formData,
-          })
-            .then(response => response.json())
-            .then(data => {
-              window.open(data.tweetUrl, '_blank');
-            })
-            .catch(error => console.error('Error uploading image:', error));
-        });
+        const tweetText = "Get your @bagsapp OG PFP\nogbags.xyz\n*paste your generated PFP*";
+        const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
+        window.open(tweetUrl, '_blank');
       };
       ogImage.src = ogOverlay.src;
     } else {
-      alert('Please add the OG overlay before sharing.');
+      const tweetText = "GET YOUR OG PFP NOW ON ogbags.xyz\n*paste your OG PFP*";
+      const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
+      window.open(tweetUrl, '_blank');
     }
   };
 
